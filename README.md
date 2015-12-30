@@ -12,6 +12,14 @@ TweetStreamer is a command line tool for collecting tweets via Twitter's public 
 - token: Twitter oAuth = access token
 - tokensecret: Twitter oAuth = access token
 
+## Output
+
+The output is a CSV file, which columns are:
+```
+tweet_id,user_id,username,timestamp,text,rt_count,rt_tweet_id,rt_user_id,rt_username,rt_timestamp,tweet_rt_textid
+```
+The first 4 four columns are filled for every tweet. In case a retweet is received, the last 4 columns are filled with details about the original tweet.
+
 ## Example
 
 Running the command below will collect tweets written in English that mention at least one of the republican party presidential candidates for the 2016 United States presidential election. It will save these tweets in a file named "tweets.csv", in a directory named "republican_debate".
