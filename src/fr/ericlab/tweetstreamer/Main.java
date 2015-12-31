@@ -1,12 +1,9 @@
 package fr.ericlab.tweetstreamer;
 
 import com.csvreader.CsvWriter;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -183,7 +180,9 @@ public class Main {
 
                 @Override
                 public void onTrackLimitationNotice(int arg0) {
-                    System.out.println("Track limitation notice: "+arg0);
+                    Date date = new Date();
+                    String dateString = dateFormat.format(date); 
+                    System.out.println(dateString+": Track limitation notice: "+arg0+" tweets missed since the last notice");
                 }
 
                 @Override
