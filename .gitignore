@@ -1,0 +1,10 @@
+
+/nbproject/
+
+*.xml
+
+*.mf
+/build/
+/dist/
+
+.DS_Store

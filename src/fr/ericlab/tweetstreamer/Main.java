@@ -103,17 +103,29 @@ public class Main {
             // Prepare CSV output
             File outputFile = new File(corpusName+"/tweets.csv");
             CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
+            // Info about the tweet we've just received
             csvOutput.write("tweet_id");
             csvOutput.write("user_id");
             csvOutput.write("username");
             csvOutput.write("timestamp");
             csvOutput.write("text");
+            // Info about the author of this tweet
+            csvOutput.write("author_created_at");
+            csvOutput.write("author_nb_followers");
+            csvOutput.write("author_nb_followees");
+            // In cas the tweets is actually a retweet, we add some info about the original tweet
             csvOutput.write("rt_count");
             csvOutput.write("rt_tweet_id");
             csvOutput.write("rt_user_id");
             csvOutput.write("rt_username");
             csvOutput.write("rt_timestamp");
-            csvOutput.write("tweet_rt_textid");
+            csvOutput.write("rt_text");
+            // Info about the author of the original tweet
+            csvOutput.write("rt_author_created_at");
+            csvOutput.write("rt_author_nb_followers");
+            csvOutput.write("rt_author_nb_followees");
+            csvOutput.endRecord();
+            
             csvOutput.endRecord();
             
             // Configure stream listener
@@ -137,6 +149,9 @@ public class Main {
                         Date date = status.getCreatedAt();
                         User user = status.getUser();
                         String username = user.getScreenName();
+                        String userCreationDate = user.getCreatedAt().toString();
+                        String nbFollowers = Integer.toString(user.getFollowersCount());
+                        String nbFollowees = Integer.toString(user.getFriendsCount());
                         String userId = ""+user.getId();
                         String tweetId = ""+status.getId();
                         String content = status.getText();
@@ -149,6 +164,9 @@ public class Main {
                         String quotedUserId = "";
                         String quotedUsername = "";
                         String retweetCount = "0";
+                        String quotedUserCreationDate = "";
+                        String quotedNbFollowers = "";
+                        String quotedNbFollowees = "";
                         if(status.isRetweet()){
                             // Retweeted tweet
                             Status retweetedStatus = status.getRetweetedStatus();
@@ -158,6 +176,9 @@ public class Main {
                             quotedDate = retweetedStatus.getCreatedAt();
                             User quotedUser = retweetedStatus.getUser();
                             quotedUsername = quotedUser.getScreenName();
+                            quotedUserCreationDate = quotedUser.getCreatedAt().toString();
+                            quotedNbFollowers = Integer.toString(quotedUser.getFollowersCount());
+                            quotedNbFollowees = Integer.toString(quotedUser.getFriendsCount());
                             quotedUserId = ""+quotedUser.getId();
                             retweetCount = ""+retweetedStatus.getRetweetCount();
                         }
@@ -166,12 +187,18 @@ public class Main {
                         csvOutput.write(username);
                         csvOutput.write(dateFormat.format(date));
                         csvOutput.write(content);
+                        csvOutput.write(userCreationDate);
+                        csvOutput.write(nbFollowers);
+                        csvOutput.write(nbFollowees);
                         csvOutput.write(retweetCount);
                         csvOutput.write(quotedTweetId);
                         csvOutput.write(quotedUserId);
                         csvOutput.write(quotedUsername);
                         csvOutput.write(dateFormat.format(quotedDate));
                         csvOutput.write(quotedContent);
+                        csvOutput.write(quotedUserCreationDate);
+                        csvOutput.write(quotedNbFollowers);
+                        csvOutput.write(quotedNbFollowees);
                         csvOutput.endRecord();                        
                     } catch (IOException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
