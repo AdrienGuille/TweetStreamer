@@ -217,16 +217,23 @@ public class Main {
 
                 }
             };
-            
+            twitterStream.addListener(listener);
             FilterQuery fq = new FilterQuery();
             if(languages != null){
                 fq.language(languages.split(","));
             }
             if(keywords != null){
                 fq.track(keywords.split(","));
+                
+                twitterStream.filter(fq);
+            }else{
+                if(languages != null){
+                    twitterStream.sample(languages);
+                }else{
+                    twitterStream.sample();
+                }
             }
-            twitterStream.addListener(listener);
-            twitterStream.filter(fq);
+            
         } catch (ParseException | SimpleException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }  
