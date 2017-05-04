@@ -1,6 +1,7 @@
 # TweetStreamer
 
 TweetStreamer is a command line tool for collecting tweets via Twitter's public streaming API.
+Get the binary release here: https://github.com/AdrienGuille/TweetStreamer/releases
 
 ## Arguments
 
